@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento Confirmado - Mira StickerMan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="video-background">
+        <video autoplay muted loop id="myVideo">
+            <source src="assets/bg fundo.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="success-container">
+        <h1>Pagamento Confirmado!</h1>
+        <p>Você será redirecionado para o WhatsApp em <span id="countdown">5</span> segundos...</p>
+        <p>Se não for redirecionado automaticamente, clique no botão abaixo:</p>
+        <a href="#" id="whatsapp-button" class="whatsapp-button">
+            <i class="fab fa-whatsapp"></i> Enviar Comprovante no WhatsApp
+        </a>
+    </div>
+
+    <script>
+        // Pegar os parâmetros da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+        const duration = urlParams.get('duration');
+
+        // Seu número de WhatsApp
+        const whatsappNumber = "5521968856347"; // Substitua pelo seu número
+
+        // Mensagem para o WhatsApp
+        const message = `Olá! Acabei de comprar a Mira StickerMan por ${duration} dias. ID da compra: ${sessionId}. Por favor, me envie a key!`;
+
+        // Criar link do WhatsApp
+        const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+        // Atualizar href do botão
+        document.getElementById('whatsapp-button').href = whatsappLink;
+
+        // Contador regressivo e redirecionamento automático
+        let seconds = 5;
+        const countdownElement = document.getElementById('countdown');
+
+        const countdown = setInterval(() => {
+            seconds--;
+            countdownElement.textContent = seconds;
+
+            if (seconds <= 0) {
+                clearInterval(countdown);
+                window.location.href = whatsappLink;
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>
